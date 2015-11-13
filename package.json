@@ -1,0 +1,22 @@
+{
+  "name": "fis3-parser-pagelet",
+  "version": "1.0.2",
+  "description": "Fis3 Parser For Pagelet",
+  "main": "index.js",
+  "scripts": {
+    "test": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guananddu/fis3-parser-pagelet.git"
+  },
+  "keywords": [
+    "fis3"
+  ],
+  "author": "pooky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guananddu/fis3-parser-pagelet/issues"
+  },
+  "homepage": "https://github.com/guananddu/fis3-parser-pagelet#readme"
+}
