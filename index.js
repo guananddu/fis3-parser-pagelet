@@ -9,6 +9,8 @@ const pattern = /\[\[\s*include\s+(['"])([^'"\[\]]+)\1[\s\n]+(with.*)?\]\]/g;
 // var scriptTag = '<!-- PAGELET_SCRIPT -->';
 var scriptTag = '</body>';
 
+var styleTag = '</head>';
+
 /**
  * 返回less文件的实际内容
  * @param realpath
@@ -62,9 +64,23 @@ function handleJs ( realpath, propath, params ) {
 
 }
 
+function handleLess( realpath, propath ) {
+
+    var lesscon = this;
+    var lesstag = '<link rel="stylesheet" href="' + propath + '?__inline">';
+
+    var posholder = [
+        lesstag, styleTag
+    ].join( '\n' );
+
+    return lesscon.replace( new RegExp( styleTag ), posholder );
+
+}
+
 module.exports = function( content, file, settings ) {
 
     scriptTag = settings.scriptTag || scriptTag;
+    styleTag = settings.styleTag || styleTag;
 
     var matcharr;
     var targetres = content;
@@ -82,12 +98,17 @@ module.exports = function( content, file, settings ) {
         var targetrealjs = path.join( CURR_PROJECT_DIR, targetjs );
 
         var posholder = [
-            getLess( targetrealless, targetless ),
+            // getLess( targetrealless, targetless ),
             getHtml( targetrealhtml, targethtml, params )
         ].join( '\n' );
 
-        // less、html
+        // html
         targetres = targetres.replace( originitem, posholder );
+
+        // less
+        fs.existsSync( targetrealless )
+            && ( targetres = handleLess.call(
+                targetres, targetrealless, targetless ) );
 
         // js
         fs.existsSync( targetrealjs )
