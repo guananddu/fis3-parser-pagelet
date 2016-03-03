@@ -1,6 +1,6 @@
 {
   "name": "fis3-parser-pagelet",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Fis3 Parser For Pagelet",
   "main": "index.js",
   "scripts": {

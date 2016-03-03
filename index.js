@@ -48,26 +48,34 @@ function getHtml( realpath, propath, params ) {
  * @param propath
  * @param params
  */
-function handleJs ( realpath, propath, params ) {
+function handleJs ( realpath, propath, params, settings ) {
 
     var jscon = this;
 
-    var innerjs = '<script type="text/javascript" src="' + propath + '?__inline"></script>';
+    var innerjs = settings.inline
+        ? '<script src="' + propath + '?__inline"></script>'
+        : '<script src="' + propath + '"></script>';
     var withwrapperh = params ? ( '{% ' + params + ' %}' ) : '';
     var withwrapperf = params ? '{% endwith %}' : '';
 
+    // 去掉对js的参数包裹
     var posholder = [
-        withwrapperh, innerjs, withwrapperf, scriptTag
+        /*withwrapperh, */
+        innerjs,
+        /*withwrapperf,*/
+        scriptTag
     ].join( '\n' );
 
     return jscon.replace( new RegExp( scriptTag ), posholder );
 
 }
 
-function handleLess( realpath, propath ) {
+function handleLess( realpath, propath, settings ) {
 
     var lesscon = this;
-    var lesstag = '<link rel="stylesheet" href="' + propath + '?__inline">';
+    var lesstag = settings.inline
+        ? '<link rel="stylesheet" href="' + propath + '?__inline">'
+        : '<link rel="stylesheet" href="' + propath + '">';
 
     var posholder = [
         lesstag, styleTag
@@ -108,12 +116,12 @@ module.exports = function( content, file, settings ) {
         // less
         fs.existsSync( targetrealless )
             && ( targetres = handleLess.call(
-                targetres, targetrealless, targetless ) );
+                targetres, targetrealless, targetless, settings ) );
 
         // js
         fs.existsSync( targetrealjs )
             && ( targetres = handleJs.call(
-                targetres, targetrealjs, targetjs, params ) );
+                targetres, targetrealjs, targetjs, params, settings ) );
 
     }
 
