@@ -4,7 +4,7 @@ const path = require( 'path' );
 const CURR_PROJECT_DIR = process.cwd();
 
 // 获取指令标签的正则
-const pattern = /\[\[\s*include\s+(['"])([^'"\[\]]+)\1[\s\n]+(with.*)?\]\]/g;
+const pattern = /\[\[\s*include\s+(['"])([^'"\[\]]+)\1[\s\n]*(with.*)?\]\]/g;
 
 // var scriptTag = '<!-- PAGELET_SCRIPT -->';
 var scriptTag = '</body>';
